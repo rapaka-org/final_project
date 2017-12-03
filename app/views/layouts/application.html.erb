@@ -10,7 +10,9 @@
 
   <body>
     <%= yield %>
-
+    
+      <p class="notice"><%= notice %></p>
+      <p class="alert"><%= alert %></p>
 
     <%= dev_tools if Rails.env.development? %>
 </body>
