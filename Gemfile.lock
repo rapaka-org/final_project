@@ -58,6 +58,12 @@ GIT
       responders
       warden (~> 1.2.3)
 
+GIT
+  remote: https://github.com/raghubetina/starter_generators
+  revision: c38d341cecde6ff086d8e7882f781f82c2870ffd
+  specs:
+    starter_generators (0.9.6)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -375,6 +381,7 @@ DEPENDENCIES
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3
+  starter_generators!
   tzinfo-data
   uglifier (>= 1.3.0)
   wdm
@@ -383,4 +390,4 @@ DEPENDENCIES
   webmock
 
 BUNDLED WITH
-   1.14.6
+   1.15.4
