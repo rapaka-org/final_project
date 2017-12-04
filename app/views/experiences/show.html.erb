@@ -1,0 +1,39 @@
+<div class="page-header">
+  <h3>Experience #<%= @experience.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12 mb-2">
+    <dl class="dl-horizontal">
+      <dt>Location</dt>
+      <dd><%= @experience.location %></dd>
+
+      <dt>When</dt>
+      <dd><%= @experience.when %></dd>
+
+      <dt>Description</dt>
+      <dd><%= @experience.description %></dd>
+
+      <dt>Meal type</dt>
+      <dd><%= @experience.meal_type %></dd>
+
+      <dt>User</dt>
+      <dd><%= User.find_by({ :id => @experience.user_id }).username %></dd>
+
+    </dl>
+    
+    <p>Hello World!</p>
+
+    <div class="btn-group btn-group-justified">
+      <a href="/experiences" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/experiences/<%= @experience.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_experience/<%= @experience.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
+    </div>
+  </div>
+</div>
