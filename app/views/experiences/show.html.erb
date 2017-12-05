@@ -21,13 +21,84 @@
       <dd><%= User.find_by({ :id => @experience.user_id }).username %></dd>
 
     </dl>
-    
-    <p>Testing Testing</p>
-    
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
     
-    <p>Testing Testing</p>
+    <div class="container">
+    
+    <h4><b>Recommendations from Zomato!</b></h4>
+      <!-- Example row of columns -->
+      <div class="row">
+
+        <div class="col-md-4">
+          <h4><%=@reco_one["name"]%></h4>
+          <h5><b><%=@reco_one["location"]["city"]%></b></h5>
+          <h5><%=@reco_one["location"]["address"]%></h5>
+          <p></p>
+          <h7><b>Cuisines:</b> <%=@reco_one["cuisines"]%></h7><br />
+          <h7><b>Rating:</b> <%=@reco_one["user_rating"]["rating_text"]%></h7><br />
+          <h7><b>Avg Cost for Two:</b> <%=@reco_one["currency"]%><%=number_with_precision(@reco_one["average_cost_for_two"],:precision => 2)%></h7><br />
+          <p><a class="btn btn-secondary" target="_blank" href="<%=@reco_one["url"]%>" role="button">View details &raquo;</a></p>
+        </div>
+
+        <div class="col-md-4">
+          <h4><%=@reco_two["name"]%></h4>
+          <h5><b><%=@reco_two["location"]["city"]%></b></h5>
+          <h5><%=@reco_two["location"]["address"]%></h5>
+          <p></p>
+          <h7><b>Cuisines:</b> <%=@reco_two["cuisines"]%></h7><br />
+          <h7><b>Rating:</b> <%=@reco_two["user_rating"]["rating_text"]%></h7><br />
+          <h7><b>Avg Cost for Two:</b> <%=@reco_two["currency"]%><%=number_with_precision(@reco_two["average_cost_for_two"],:precision => 2)%></h7><br />
+          <p><a class="btn btn-secondary" target="_blank" href="<%=@reco_two["url"]%>" role="button">View details &raquo;</a></p>
+        </div>
+
+        <div class="col-md-4">
+          <h4><%=@reco_three["name"]%></h4>
+          <h5><b><%=@reco_three["location"]["city"]%></b></h5>
+          <h5><%=@reco_three["location"]["address"]%></h5>
+          <p></p>
+          <h7><b>Cuisines:</b> <%=@reco_three["cuisines"]%></h7><br />
+          <h7><b>Rating:</b> <%=@reco_three["user_rating"]["rating_text"]%></h7><br />
+          <h7><b>Avg Cost for Two:</b> <%=@reco_three["currency"]%><%=number_with_precision(@reco_three["average_cost_for_two"],:precision => 2)%></h7><br />
+          <p><a class="btn btn-secondary" target="_blank" href="<%=@reco_three["url"]%>" role="button">View details &raquo;</a></p>
+        </div>        
+      
+      </div>
+
+      <hr>
+
+    </div> <!-- /container -->
+    
+    
+    <div class="card search-snippet-card search-card  ">
+      
+      </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     <div class="btn-group btn-group-justified">
       <a href="/experiences" class="btn btn-primary">
