@@ -23,19 +23,55 @@
     </dl>
 
 
+    <div class="container">
+    <form action="/create_recommendation" method="post">
+    <input name="experience_id" type="hidden" value="<%= @experience.id %>">
+    <p><a href="/recommendations/new/<%=@experience.id%>">Add a new recommendation</a></p>
+    </form>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12">
+        <table class="table table-striped table-hover">
+          <tr>
+            <th>Name</th>
+            <th>Address</th>
+            <th>Cuisines</th>
+            <th>Rating</th>
+            <th>Recommender</th>
+            <th>Vote Count</th>
+            <th></th>
+            <th></th>
+          </tr>
+          
+          <% @exprecos.each do |reco| %>
+          <tr>
+            <td><%= reco.zom_name %></td>
+            <td><%= reco.zom_address %></td>
+            <td><%= reco.zom_cuisine %></td>
+            <td><%= reco.zom_rating %></td>
+            <td><%= User.find_by({ :id => reco.user_id }).username %></td>
+            <td><%= Vote.where(:recommendation_id => reco.id).count %></td>
+            <td>
+              <form action="/create_vote" method="post">
+              <input name="recommendation_id" type="hidden" value="<%= reco.id %>">
+              <input name="restid" type="hidden" value="<%= reco.restid %>">
+              <button>Vote</button>
+              </form>
+            </td>
+            <td><a href="/recommendations/<%=reco.id%>/edit">Edit</a></td>
+          </tr>
+          <% end %>
 
-
-
-
-
-
-
-
-
-
-
-
-
+        </table>
+      </div>
+    </div>
+        
+    
+    
+    
+    
+    
     
     <div class="container">
     

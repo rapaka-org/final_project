@@ -33,6 +33,10 @@ class User < ApplicationRecord
          
   has_many :experiences
   
+  has_many :votes
+  
+  has_many :recommendations
+  
   
   
 end

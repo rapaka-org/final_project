@@ -1,0 +1,30 @@
+<div class="page-header">
+  <h1>
+    Votes
+    <a href="/votes/new" class="btn btn-lg btn-success">New Vote</a>
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Recommendation</th>
+        <th>User</th>
+        <th>Actions</th>
+      </tr>
+
+      <% @votes.each do |vote| %>
+      <tr>
+        <td><%= vote.recommendation_id %></td>
+        <td><%= vote.user_id %></td>
+        <td>
+          <a href="/votes/<%= vote.id %>" class="btn btn-primary">Show</a>
+          <a href="/votes/<%= vote.id %>/edit" class="btn btn-warning">Edit</a>
+          <a href="/delete_vote/<%= vote.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

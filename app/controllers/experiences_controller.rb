@@ -10,6 +10,8 @@ class ExperiencesController < ApplicationController
   def show
     @experience = Experience.find(params[:id])
     
+    @exprecos = Recommendation.where(:experience_id => @experience.id)
+    
     require 'net/http'
     require 'uri'
     

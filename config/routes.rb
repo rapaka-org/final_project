@@ -1,8 +1,25 @@
 Rails.application.routes.draw do
 
+  # Routes for the Vote resource:
+  # CREATE
+  get "/votes/new", :controller => "votes", :action => "new"
+  post "/create_vote", :controller => "votes", :action => "create"
+
+  # READ
+  get "/votes", :controller => "votes", :action => "index"
+  get "/votes/:id", :controller => "votes", :action => "show"
+
+  # UPDATE
+  get "/votes/:id/edit", :controller => "votes", :action => "edit"
+  post "/update_vote/:id", :controller => "votes", :action => "update"
+
+  # DELETE
+  get "/delete_vote/:id", :controller => "votes", :action => "destroy"
+  #------------------------------
+
   # Routes for the Recommendation resource:
   # CREATE
-  get "/recommendations/new", :controller => "recommendations", :action => "new"
+  get "/recommendations/new/:id", :controller => "recommendations", :action => "new"
   post "/create_recommendation", :controller => "recommendations", :action => "create"
 
   # READ

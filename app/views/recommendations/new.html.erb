@@ -13,10 +13,13 @@
 </div>
 
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-md-6">
     <form action="/create_recommendation" method="post">
       <!-- Hidden input for authenticity token to protect from forgery -->
       <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+      
+      <!-- Hidden input for the experience id that sent the user to this page -->
+      <input name="experience_id" type="hidden" value="<%= @experience.id %>">
 
       <!-- Label and input for name -->
       <div class="form-group">
@@ -34,42 +37,6 @@
         </label>
 
         <input type="text" id="address" name="address" placeholder="Address" class="form-control" value="<%= @recommendation.address %>">
-      </div>
-
-      <!-- Label and input for latitude -->
-      <div class="form-group">
-        <label for="latitude" class="control-label">
-          Latitude
-        </label>
-
-        <input type="text" id="latitude" name="latitude" placeholder="Latitude" class="form-control" value="<%= @recommendation.latitude %>">
-      </div>
-
-      <!-- Label and input for longitude -->
-      <div class="form-group">
-        <label for="longitude" class="control-label">
-          Longitude
-        </label>
-
-        <input type="text" id="longitude" name="longitude" placeholder="Longitude" class="form-control" value="<%= @recommendation.longitude %>">
-      </div>
-
-      <!-- Label and input for experience_id -->
-      <div class="form-group">
-        <label for="experience_id" class="control-label">
-          Experience
-        </label>
-
-        <input type="text" id="experience_id" name="experience_id" placeholder="Experience" class="form-control" value="<%= @recommendation.experience_id %>">
-      </div>
-
-      <!-- Label and input for user_id -->
-      <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
-
-        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @recommendation.user_id %>">
       </div>
 
       <button class="btn btn-success">

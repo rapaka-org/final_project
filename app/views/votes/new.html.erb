@@ -1,0 +1,46 @@
+<!-- Validation failure messages -->
+<% if @vote.errors.any? %>
+  <% @vote.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Add Vote</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+    <form action="/create_vote" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+      <!-- Label and input for recommendation_id -->
+      <div class="form-group">
+        <label for="recommendation_id" class="control-label">
+          Recommendation
+        </label>
+
+        <input type="text" id="recommendation_id" name="recommendation_id" placeholder="Recommendation" class="form-control" value="<%= @vote.recommendation_id %>">
+      </div>
+
+      <!-- Label and input for user_id -->
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @vote.user_id %>">
+      </div>
+
+      <button class="btn btn-success">
+        Create Vote
+      </button>
+      or
+      <a href="/votes">Cancel</a>
+    </form>
+  </div>
+</div>

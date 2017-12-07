@@ -1,0 +1,28 @@
+<div class="page-header">
+  <h3>Vote #<%= @vote.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12 mb-2">
+    <dl class="dl-horizontal">
+      <dt>Recommendation</dt>
+      <dd><%= @vote.recommendation_id %></dd>
+
+      <dt>User</dt>
+      <dd><%= @vote.user_id %></dd>
+
+    </dl>
+
+    <div class="btn-group btn-group-justified">
+      <a href="/votes" class="btn btn-primary">
+        Back
+      </a>
+      <a href="/votes/<%= @vote.id %>/edit" class="btn btn-warning">
+        Edit
+      </a>
+      <a href="/delete_vote/<%= @vote.id %>" class="btn btn-danger" rel="nofollow">
+        Delete
+      </a>
+    </div>
+  </div>
+</div>
