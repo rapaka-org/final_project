@@ -1,17 +1,14 @@
 Rails.application.routes.draw do
 
+  root 'experiences#index'
+
+  # Routes for the Vote resource:
+  # READ
+  get "/users", :controller => "users", :action => "index"
+  
   # Routes for the Vote resource:
   # CREATE
-  get "/votes/new", :controller => "votes", :action => "new"
   post "/create_vote", :controller => "votes", :action => "create"
-
-  # READ
-  get "/votes", :controller => "votes", :action => "index"
-  get "/votes/:id", :controller => "votes", :action => "show"
-
-  # UPDATE
-  get "/votes/:id/edit", :controller => "votes", :action => "edit"
-  post "/update_vote/:id", :controller => "votes", :action => "update"
 
   # DELETE
   get "/delete_vote/:id", :controller => "votes", :action => "destroy"
@@ -25,6 +22,7 @@ Rails.application.routes.draw do
   # READ
   get "/recommendations", :controller => "recommendations", :action => "index"
   get "/recommendations/:id", :controller => "recommendations", :action => "show"
+  get "/users/recommendations/:id", :controller =>"recommendations", :action => "usershow"
 
   # UPDATE
   get "/recommendations/:id/edit", :controller => "recommendations", :action => "edit"
@@ -33,8 +31,6 @@ Rails.application.routes.draw do
   # DELETE
   get "/delete_recommendation/:id", :controller => "recommendations", :action => "destroy"
   #------------------------------
-
-  root 'experiences#index'
   
   # Routes for the Experience resource:
   # CREATE
@@ -44,6 +40,7 @@ Rails.application.routes.draw do
   # READ
   get "/experiences", :controller => "experiences", :action => "index"
   get "/experiences/:id", :controller => "experiences", :action => "show"
+  get "/users/experiences/:id", :controller =>"experiences", :action => "usershow"
 
   # UPDATE
   get "/experiences/:id/edit", :controller => "experiences", :action => "edit"

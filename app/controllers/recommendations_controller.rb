@@ -2,8 +2,14 @@ require 'open-uri'
 
 class RecommendationsController < ApplicationController
   def index
+    @userspecific = 0
     @recommendations = Recommendation.all
-
+    render("recommendations/index.html.erb")
+  end
+  
+  def usershow
+    @userspecific = 1
+    @recommendations = Recommendation.where(:user_id => params[:id])
     render("recommendations/index.html.erb")
   end
 
@@ -74,6 +80,7 @@ class RecommendationsController < ApplicationController
     @recommendation.zom_address = parsed_zomato["restaurants"][0]["restaurant"]["location"]["address"]
     @recommendation.zom_cuisine = parsed_zomato["restaurants"][0]["restaurant"]["cuisines"]
     @recommendation.zom_rating = parsed_zomato["restaurants"][0]["restaurant"]["user_rating"]["rating_text"]
+    @recommendation.zom_rating = parsed_zomato["restaurants"][0]["restaurant"]["url"]
     end
 
     end
@@ -111,6 +118,7 @@ class RecommendationsController < ApplicationController
     @recommendation.zom_name = nil
     @recommendation.zom_address = nil
     @recommendation.zom_cuisine = nil
+    @recommendation.zom_rating = nil
     @recommendation.zom_rating = nil
     @recommendation.experience_id = params[:experience_id]
     @recommendation.user_id = current_user.id
@@ -161,6 +169,7 @@ class RecommendationsController < ApplicationController
       @recommendation.zom_address = parsed_zomato["restaurants"][0]["restaurant"]["location"]["address"]
       @recommendation.zom_cuisine = parsed_zomato["restaurants"][0]["restaurant"]["cuisines"]
       @recommendation.zom_rating = parsed_zomato["restaurants"][0]["restaurant"]["user_rating"]["rating_text"]
+      @recommendation.zom_rating = parsed_zomato["restaurants"][0]["restaurant"]["url"]
     end
 
     end

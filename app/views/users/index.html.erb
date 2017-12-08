@@ -1,0 +1,27 @@
+<div class="page-header">
+  <h1>
+    Users
+  </h1>
+</div>
+
+<div class="row">
+  <div class="col-md-8">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>User</th>
+        <th>Experiences Posted</th>
+        <th>Recommendations Made</th>
+        <th>Votes Casted</th>
+      </tr>
+
+      <% @users.each do |user| %>
+      <tr>
+        <td><%= user.username %></td>
+        <td><a href="/users/experiences/<%= user.id%>"><%=Experience.where({:user_id => user.id}).count.humanize.capitalize%></a> experiences</td>
+        <td><a href="/users/recommendations/<%= user.id%>"><%=Recommendation.where({:user_id => user.id}).count.humanize.capitalize%></a> recommendations</td>
+        <td>Voted <%=Vote.where({:user_id => user.id}).count.humanize.capitalize%> times</a></td>
+      </tr>
+      <% end %>
+    </table>
+  </div>
+</div>

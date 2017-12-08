@@ -1,7 +1,7 @@
 <div class="page-header">
   <h1>
     Experiences
-    <a href="/experiences/new" class="btn btn-lg btn-success">Crowdsource an Experience</a>
+    <a href="/experiences/new" class="btn btn-md btn-primary">Crowdsource an Experience</a>
   </h1>
 </div>
 
@@ -9,27 +9,38 @@
   <div class="col-md-12">
     <table class="table table-striped table-hover">
       <tr>
+        <th>User</th>
         <th>Location</th>
         <th>When</th>
-        <th>Description</th>
         <th>Meal type</th>
-        <th>User</th>
+        <th>Experience</th>
         <th>Actions</th>
       </tr>
 
+      <% if @userspecific == 0 %>
+      <% deadline = Date.today %>
+      <% else %>
+      <% deadline = Date.today-3650 %>
+      <%end%>
+      
       <% @experiences.each do |experience| %>
+      
+      <% if experience.when >= deadline %>
       <tr>
+        <td><a href="/users/experiences/<%= experience.user_id%>"><%= User.find_by({ :id => experience.user_id }).username %></a></td>
         <td><%= experience.location %></td>
         <td><%= experience.when %></td>
-        <td><%= experience.description %></td>
         <td><%= experience.meal_type %></td>
-        <td><%= User.find_by({ :id => experience.user_id }).username %></td>
+        <td><%=experience.description %></td>
         <td>
-          <a href="/experiences/<%= experience.id %>" class="btn btn-primary">Show</a>
-          <a href="/experiences/<%= experience.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_experience/<%= experience.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <a href="/experiences/<%= experience.id %>"> <i class="glyphicon glyphicon-zoom-in" title="Show details" alt="Show details"></i></a>
+          <% if current_user.id == User.find_by({ :id => experience.user_id }).id %>
+          <a href="/experiences/<%= experience.id %>/edit"><i class="glyphicon glyphicon-edit" title="Edit" alt="Edit"></i></a>
+          <a href="/delete_experience/<%= experience.id %>" rel="nofollow"><i class="glyphicon glyphicon-trash" title="Delete" alt="Delete"></i></a>
+          <% end %>
         </td>
       </tr>
+      <% end %>
       <% end %>
     </table>
   </div>

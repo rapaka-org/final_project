@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>FinalProject</title>
+  <title>GrubSource - Crowdsource your experiences!</title>
 
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.5/simplex/bootstrap.min.css">
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -34,22 +34,27 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a href="/" class="navbar-brand">FinalProject</a>
+        <a href="/" class="navbar-brand"><i class="glyphicon glyphicon-globe"></i> GrubSource</a>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
-          <li><a href="/recommendations">Recommendations</a></li>
-          <li><a href="/experiences">Experiences</a></li>
-          <li><a href="/batch_action_admin_admin_users">Batch Action Admin Admin Users</a></li>
-          <li><a href="/admin_admin_users">Admin Admin Users</a></li>
-          <li><a href="/admin_comments">Admin Comments</a></li>
+          <%if !current_user.nil?%>
+          <li><a href="/users/experiences/<%=current_user.id%>"><i class="glyphicon glyphicon-star"></i> My Experiences</a></li>
+          <li><a href="/users/recommendations/<%=current_user.id%>"><i class="glyphicon glyphicon-heart"></i> My Recommendations</a></li>
+          <li><a href="/users"><i class="fa fa-fw fa-users"></i> Users</a></li>
+          <%end%>
         </ul>
 
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/users/edit">Dummy Edit Profile Link</a></li>
-          <li><a href="/users/sign_out" data-method="delete" rel="nofollow">Dummy Sign Out Link</a></li>
+          <%if current_user.nil?%>
+          <li><a href="/users/sign_in">Sign In</a></li>
+          <li><a href="/users/sign_up">Sign Up</a></li>
+          <%elsif%>          
+          <li><a href="/users/edit"><i class="glyphicon glyphicon-th-list"></i> My Profile</a></li>
+          <li><a href="/users/sign_out" data-method="delete" rel="nofollow"><i class="glyphicon glyphicon-log-out"></i> Sign Out</a></li>
+          <%end%>
         </ul>
       </div><!-- /.navbar-collapse -->
     </div>

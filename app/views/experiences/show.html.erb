@@ -5,20 +5,21 @@
 <div class="row">
   <div class="col-md-12 mb-2">
     <dl class="dl-horizontal">
+      
+      <dt>User</dt>
+      <dd><%= User.find_by({ :id => @experience.user_id }).username %></dd>      
+      
       <dt>Location</dt>
       <dd><%= @experience.location %></dd>
 
       <dt>When</dt>
       <dd><%= @experience.when %></dd>
 
-      <dt>Description</dt>
-      <dd><%= @experience.description %></dd>
-
-      <dt>Meal type</dt>
+      <dt>Meal Type</dt>
       <dd><%= @experience.meal_type %></dd>
 
-      <dt>User</dt>
-      <dd><%= User.find_by({ :id => @experience.user_id }).username %></dd>
+      <dt>Description</dt>
+      <dd><%= @experience.description %></dd>
 
     </dl>
 
@@ -31,7 +32,7 @@
     </div>
     
     <div class="row">
-      <div class="col-md-12">
+      <div class="col-md-16">
         <table class="table table-striped table-hover">
           <tr>
             <th>Name</th>
@@ -40,8 +41,8 @@
             <th>Rating</th>
             <th>Recommender</th>
             <th>Vote Count</th>
-            <th></th>
-            <th></th>
+            <th>Actions</th>
+            <th>Vote</th>
           </tr>
           
           <% @exprecos.each do |reco| %>
@@ -51,15 +52,32 @@
             <td><%= reco.zom_cuisine %></td>
             <td><%= reco.zom_rating %></td>
             <td><%= User.find_by({ :id => reco.user_id }).username %></td>
-            <td><%= Vote.where(:recommendation_id => reco.id).count %></td>
+            <td><%= reco.votecount %></td>
+
             <td>
-              <form action="/create_vote" method="post">
-              <input name="recommendation_id" type="hidden" value="<%= reco.id %>">
-              <input name="restid" type="hidden" value="<%= reco.restid %>">
-              <button>Vote</button>
-              </form>
+              <a target="_blank" href="<%=@reco_two["url"]%>"><i class="glyphicon glyphicon-zoom-in" title="Show details" alt="Show details"></i></a>
+              <% if User.find_by({ :id => reco.user_id }).id == current_user.id %>
+              <a href="/recommendations/<%=reco.id%>/edit"><i class="glyphicon glyphicon-edit" title="Edit" alt="Edit"></i></a>
+              <a href="/delete_recommendations/<%=reco.id%>" rel="nofollow"><i class="glyphicon glyphicon-trash" title="Delete" alt="Delete"></i></a>
+              <% end %>
             </td>
-            <td><a href="/recommendations/<%=reco.id%>/edit">Edit</a></td>
+
+            <td>
+            <% if Vote.find_by({ :user_id => current_user.id, :recommendation_id => reco.id }).nil? %>
+            <form action="/create_vote" method="post">
+            <input name="recommendation_id" type="hidden" value="<%= reco.id %>">
+            <input name="restid" type="hidden" value="<%= reco.restid %>">
+            <button class="btn-default"><i class="glyphicon glyphicon-thumbs-up" title="Up Vote" alt="Up Vote"></i></button>
+            </form>
+            <%else%>
+            <form action="/create_vote" method="post">
+            <input name="recommendation_id" type="hidden" value="<%= reco.id %>">
+            <input name="restid" type="hidden" value="<%= reco.restid %>">
+            <button class="btn-primary"><i class="glyphicon glyphicon-thumbs-down" title="Down Vote" alt="Down Vote"></i></button>
+            </form>            
+            <%end%>
+            </td>
+            
           </tr>
           <% end %>
 
@@ -67,12 +85,6 @@
       </div>
     </div>
         
-    
-    
-    
-    
-    
-    
     <div class="container">
     
     <h4><b>Recommendations from Zomato!</b></h4>
@@ -87,7 +99,7 @@
           <h7><b>Cuisines:</b> <%=@reco_one["cuisines"]%></h7><br />
           <h7><b>Rating:</b> <%=@reco_one["user_rating"]["rating_text"]%></h7><br />
           <h7><b>Avg Cost for Two:</b> <%=@reco_one["currency"]%><%=number_with_precision(@reco_one["average_cost_for_two"],:precision => 2)%></h7><br />
-          <p><a class="btn btn-secondary" target="_blank" href="<%=@reco_one["url"]%>" role="button">View details &raquo;</a></p>
+          <p><a target="_blank" href="<%=@reco_one["url"]%>" role="button">View details &raquo;</a></p>
         </div>
 
         <div class="col-md-4">
@@ -98,7 +110,7 @@
           <h7><b>Cuisines:</b> <%=@reco_two["cuisines"]%></h7><br />
           <h7><b>Rating:</b> <%=@reco_two["user_rating"]["rating_text"]%></h7><br />
           <h7><b>Avg Cost for Two:</b> <%=@reco_two["currency"]%><%=number_with_precision(@reco_two["average_cost_for_two"],:precision => 2)%></h7><br />
-          <p><a class="btn btn-secondary" target="_blank" href="<%=@reco_two["url"]%>" role="button">View details &raquo;</a></p>
+          <p><a target="_blank" href="<%=@reco_two["url"]%>" role="button">View details &raquo;</a></p>
         </div>
 
         <div class="col-md-4">
@@ -109,7 +121,7 @@
           <h7><b>Cuisines:</b> <%=@reco_three["cuisines"]%></h7><br />
           <h7><b>Rating:</b> <%=@reco_three["user_rating"]["rating_text"]%></h7><br />
           <h7><b>Avg Cost for Two:</b> <%=@reco_three["currency"]%><%=number_with_precision(@reco_three["average_cost_for_two"],:precision => 2)%></h7><br />
-          <p><a class="btn btn-secondary" target="_blank" href="<%=@reco_three["url"]%>" role="button">View details &raquo;</a></p>
+          <p><a target="_blank" href="<%=@reco_three["url"]%>">View details &raquo;</a></p>
         </div>        
       
       </div>

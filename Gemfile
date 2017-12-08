@@ -73,5 +73,11 @@ end
 gem 'activeadmin', github: 'activeadmin/activeadmin'
 gem 'devise', github: 'plataformatec/devise'
 gem 'jquery-rails'
+gem 'chronic'
+
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.7.14'
+
+gem 'humanize'
 
 gem "starter_generators", :git => "https://github.com/raghubetina/starter_generators"

@@ -16,6 +16,8 @@
 #  zom_address   :string
 #  zom_cuisine   :string
 #  zom_rating    :string
+#  zomlink       :string
+#  votecount     :integer
 #
 
 class Recommendation < ApplicationRecord

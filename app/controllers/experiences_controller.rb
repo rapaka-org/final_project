@@ -2,49 +2,31 @@ require 'open-uri'
 
 class ExperiencesController < ApplicationController
   def index
-    @experiences = Experience.all
-
+    @experiences = Experience.order(when: :asc)
+    @recommendations = Recommendation.all
+    
+    @recommendations.each do |reco|
+    reco.votecount=Vote.where({:recommendation_id => reco.id}).count
+    reco.save
+    end
+    
+    @reco_one=Recommendation.order(votecount: 'desc').first
+    @reco_two=Recommendation.order(votecount: 'desc').second
+    @reco_third=Recommendation.order(votecount: 'desc').third
+    
+    @userspecific = 0
+    
     render("experiences/index.html.erb")
   end
-
-  def show
-    @experience = Experience.find(params[:id])
-    
-    @exprecos = Recommendation.where(:experience_id => @experience.id)
-    
-    require 'net/http'
-    require 'uri'
-    
-    uri = URI.parse("https://developers.zomato.com/api/v2.1/geocode?lat="+@experience.latitude.to_s+"&lon="+@experience.longitude.to_s)
-    request = Net::HTTP::Get.new(uri)
-    request["Accept"] = "application/json"
-    request["User-Key"] = "a8892401fb096927db5ab354ed3f631a"
-    
-    req_options = {
-      use_ssl: uri.scheme == "https",
-    }
-    
-    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
-      http.request(request)
-    end
-    
-    parsed_zomato=JSON.parse(response.body)
-
-    # if Zomato has no recommendations then error
-    if parsed_zomato["nearby_restaurants"].nil?
-    flash.now[:alert] = "Sorry! We don't have any recommendations in that location!"  
-    else
-      @reco_one=parsed_zomato["nearby_restaurants"][0]["restaurant"]
-      @reco_two=parsed_zomato["nearby_restaurants"][1]["restaurant"]
-      @reco_three=parsed_zomato["nearby_restaurants"][2]["restaurant"]
-    end
-    
-    render("experiences/show.html.erb")
+  
+  def usershow
+    @userspecific = 1
+    @experiences = Experience.where(:user_id => params[:id])
+    render("experiences/index.html.erb")
   end
-
+  
   def new
     @experience = Experience.new
-
     render("experiences/new.html.erb")
   end
 
@@ -52,7 +34,7 @@ class ExperiencesController < ApplicationController
     @experience = Experience.new
 
     @experience.location = params[:location]
-    @experience.when = params[:when]
+    @experience.when = Chronic.parse(params[:when])
     @experience.description = params[:description]
     @experience.meal_type = params[:meal_type]
     @experience.user_id = current_user.id
@@ -109,13 +91,53 @@ class ExperiencesController < ApplicationController
     if save_status == true
       redirect_to("/experiences/#{@experience.id}", :notice => "Experience created successfully.")
     else
-      render("experiences/new.html.erb")
+      render("experiences/new.html.erb", :alert => "Sorry! Your experience could not be saved!")
     end
+  end
+
+  def show
+    @experience = Experience.find(params[:id])
+    @exprecos = Recommendation.where({:experience_id => @experience.id})
+    
+    @exprecos.each do |reco|
+    reco.votecount=Vote.where({:recommendation_id => reco.id}).count
+    reco.save
+    end
+    
+    @exprecos=@exprecos.order(votecount: 'desc')
+    
+    require 'net/http'
+    require 'uri'
+    
+    uri = URI.parse("https://developers.zomato.com/api/v2.1/geocode?lat="+@experience.latitude.to_s+"&lon="+@experience.longitude.to_s)
+    request = Net::HTTP::Get.new(uri)
+    request["Accept"] = "application/json"
+    request["User-Key"] = "a8892401fb096927db5ab354ed3f631a"
+    
+    req_options = {
+      use_ssl: uri.scheme == "https",
+    }
+    
+    response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+      http.request(request)
+    end
+    
+    parsed_zomato=JSON.parse(response.body)
+
+    # if Zomato has no recommendations then error
+    if parsed_zomato["nearby_restaurants"].nil?
+    flash.now[:alert] = "Sorry! We don't have any recommendations in that location!"  
+    else
+      @reco_one=parsed_zomato["nearby_restaurants"][0]["restaurant"]
+      @reco_two=parsed_zomato["nearby_restaurants"][1]["restaurant"]
+      @reco_three=parsed_zomato["nearby_restaurants"][2]["restaurant"]
+    end
+    
+    render("experiences/show.html.erb")
   end
 
   def edit
     @experience = Experience.find(params[:id])
-
     render("experiences/edit.html.erb")
   end
 
@@ -123,7 +145,7 @@ class ExperiencesController < ApplicationController
     @experience = Experience.find(params[:id])
 
     @experience.location = params[:location]
-    @experience.when = params[:when]
+    @experience.when = Chronic.parse(params[:when])
     @experience.description = params[:description]
     @experience.meal_type = params[:meal_type]
     @experience.user_id = current_user.id
@@ -180,19 +202,18 @@ class ExperiencesController < ApplicationController
      save_status = @experience.save
     end
     
-  end
+    end
   
   # If everything worked well then show the updated message else just render back the edit page with the notice
     if save_status == true
       redirect_to("/experiences/#{@experience.id}", :notice => "Experience updated successfully.")
     else
-      render("experiences/edit.html.erb")
+      render("experiences/edit.html.erb", :alert => "Sorry! Your experience could not be saved!")
     end
   end
   
   def destroy
     @experience = Experience.find(params[:id])
-
     @experience.destroy
 
     if URI(request.referer).path == "/experiences/#{@experience.id}"
@@ -201,4 +222,5 @@ class ExperiencesController < ApplicationController
       redirect_back(:fallback_location => "/", :notice => "Experience deleted.")
     end
   end
+
 end
