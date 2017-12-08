@@ -10,10 +10,42 @@ class ExperiencesController < ApplicationController
     reco.save
     end
     
-    @reco_one=Recommendation.order(votecount: 'desc').first
-    @reco_two=Recommendation.order(votecount: 'desc').second
-    @reco_third=Recommendation.order(votecount: 'desc').third
+    @reco = Array.new
     
+    if Recommendation.count > 2
+    @reco[1]=Recommendation.order(votecount: 'desc').first.restid
+    @reco[2]=Recommendation.order(votecount: 'desc').second.restid
+    @reco[3]=Recommendation.order(votecount: 'desc').third.restid
+    
+    require 'net/http'
+    require 'uri'
+    
+    4.times do |n|
+      uri = URI.parse("https://developers.zomato.com/api/v2.1/restaurant?res_id="+@reco[n].to_s)
+      request = Net::HTTP::Get.new(uri)
+      request["Accept"] = "application/json"
+      request["User-Key"] = "a8892401fb096927db5ab354ed3f631a"
+      
+      req_options = {
+        use_ssl: uri.scheme == "https",
+      }
+      
+      response = Net::HTTP.start(uri.hostname, uri.port, req_options) do |http|
+        http.request(request)
+      end
+      
+      parsed_zomato=JSON.parse(response.body)
+      if parsed_zomato["status"].nil? && n==1
+      @reco_one=parsed_zomato
+      elsif parsed_zomato["status"].nil? && n==2
+      @reco_two=parsed_zomato
+      elsif parsed_zomato["status"].nil? && n==3
+      @reco_three=parsed_zomato
+      end
+    
+    end
+    end
+  
     @userspecific = 0
     
     render("experiences/index.html.erb")

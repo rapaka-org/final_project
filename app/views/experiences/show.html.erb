@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h3>Experience #<%= @experience.id %></h3>
+  <h3><%= User.find_by({ :id => @experience.user_id }).username %>: <%= @experience.meal_type %> @ <%= @experience.location %></h3>
 </div>
 
 <div class="row">
@@ -67,13 +67,13 @@
             <form action="/create_vote" method="post">
             <input name="recommendation_id" type="hidden" value="<%= reco.id %>">
             <input name="restid" type="hidden" value="<%= reco.restid %>">
-            <button class="btn-default"><i class="glyphicon glyphicon-thumbs-up" title="Up Vote" alt="Up Vote"></i></button>
+            <button class="btn-primary"><i class="glyphicon glyphicon-thumbs-up" title="Up Vote" alt="Up Vote"></i></button>
             </form>
             <%else%>
             <form action="/create_vote" method="post">
             <input name="recommendation_id" type="hidden" value="<%= reco.id %>">
             <input name="restid" type="hidden" value="<%= reco.restid %>">
-            <button class="btn-primary"><i class="glyphicon glyphicon-thumbs-down" title="Down Vote" alt="Down Vote"></i></button>
+            <button class="btn-default"><i class="glyphicon glyphicon-thumbs-down" title="Down Vote" alt="Down Vote"></i></button>
             </form>            
             <%end%>
             </td>

@@ -14,6 +14,7 @@
         <th>When</th>
         <th>Meal type</th>
         <th>Experience</th>
+        <th>Recos</th>
         <th>Actions</th>
       </tr>
 
@@ -32,6 +33,7 @@
         <td><%= experience.when %></td>
         <td><%= experience.meal_type %></td>
         <td><%=experience.description %></td>
+        <td><a href = "/experiences/<%= experience.id %>"><%=Recommendation.where({:experience_id => experience.id}).count.humanize.capitalize %></a></td>
         <td>
           <a href="/experiences/<%= experience.id %>"> <i class="glyphicon glyphicon-zoom-in" title="Show details" alt="Show details"></i></a>
           <% if current_user.id == User.find_by({ :id => experience.user_id }).id %>
@@ -45,3 +47,43 @@
     </table>
   </div>
 </div>
+
+<% if @userspecific == 0 %>
+    <h4><b>Top Recommendations from Users!</b></h4>
+      <div class="row">
+
+        <div class="col-md-4">
+          <h4><%=@reco_one["name"]%></h4>
+          <h5><b><%=@reco_one["location"]["city"]%></b></h5>
+          <h5><%=@reco_one["location"]["address"]%></h5>
+          <p></p>
+          <h7><b>Cuisines:</b> <%=@reco_one["cuisines"]%></h7><br />
+          <h7><b>Rating:</b> <%=@reco_one["user_rating"]["rating_text"]%></h7><br />
+          <h7><b>Avg Cost for Two:</b> <%=@reco_one["currency"]%><%=number_with_precision(@reco_one["average_cost_for_two"],:precision => 2)%></h7><br />
+          <p><a target="_blank" href="<%=@reco_one["url"]%>" role="button">View details &raquo;</a></p>
+        </div>
+
+        <div class="col-md-4">
+          <h4><%=@reco_two["name"]%></h4>
+          <h5><b><%=@reco_two["location"]["city"]%></b></h5>
+          <h5><%=@reco_two["location"]["address"]%></h5>
+          <p></p>
+          <h7><b>Cuisines:</b> <%=@reco_two["cuisines"]%></h7><br />
+          <h7><b>Rating:</b> <%=@reco_two["user_rating"]["rating_text"]%></h7><br />
+          <h7><b>Avg Cost for Two:</b> <%=@reco_two["currency"]%><%=number_with_precision(@reco_two["average_cost_for_two"],:precision => 2)%></h7><br />
+          <p><a target="_blank" href="<%=@reco_two["url"]%>" role="button">View details &raquo;</a></p>
+        </div>
+
+        <div class="col-md-4">
+          <h4><%=@reco_three["name"]%></h4>
+          <h5><b><%=@reco_three["location"]["city"]%></b></h5>
+          <h5><%=@reco_three["location"]["address"]%></h5>
+          <p></p>
+          <h7><b>Cuisines:</b> <%=@reco_three["cuisines"]%></h7><br />
+          <h7><b>Rating:</b> <%=@reco_three["user_rating"]["rating_text"]%></h7><br />
+          <h7><b>Avg Cost for Two:</b> <%=@reco_three["currency"]%><%=number_with_precision(@reco_three["average_cost_for_two"],:precision => 2)%></h7><br />
+          <p><a target="_blank" href="<%=@reco_three["url"]%>">View details &raquo;</a></p>
+        </div>        
+      
+      </div>
+<% end %>
